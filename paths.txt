@@ -1,5 +1,8 @@
 ../../etc/passwd
 ./uploads/avatar.png
 /var/www/.env
-C:\\Users\\user\\.ssh\\id_rsa
+C:\Users\user\.ssh\id_rsa
 backup/db.bak
+%2e%2e%2f%2e%2e%2fconfig%2fsettings.yml
+static/.git/config
+avatar.php%00.png
