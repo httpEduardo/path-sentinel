@@ -54,7 +54,10 @@ fn percent_decode(s: &str) -> String {
     let mut i = 0;
     while i < bytes.len() {
         if bytes[i] == b'%' && i + 2 < bytes.len() {
-            if let Ok(b) = u8::from_str_radix(&s[i + 1..i + 3], 16) {
+            let decoded = std::str::from_utf8(&bytes[i + 1..i + 3])
+                .ok()
+                .and_then(|hex| u8::from_str_radix(hex, 16).ok());
+            if let Some(b) = decoded {
                 out.push(b);
                 i += 3;
                 continue;
@@ -93,6 +96,13 @@ fn input_path() -> Result<String, String> {
 }
 
 fn main() -> ExitCode {
+    let args: Vec<String> = env::args().skip(1).collect();
+    if matches!(args.as_slice(), [flag] if flag == "--help" || flag == "-h") {
+        println!("usage: path-sentinel [--input FILE]");
+        println!("  --input, -i  file with one path per line (default: paths.txt)");
+        println!("  --help, -h   show this help");
+        return ExitCode::SUCCESS;
+    }
     let input = match input_path() {
         Ok(path) => path,
         Err(msg) => {

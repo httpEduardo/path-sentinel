@@ -19,6 +19,10 @@ It's meant for quick triage: paste in paths pulled from access logs, upload file
 
 Before matching, each path is URL-decoded (up to two layers) and backslashes are converted to forward slashes, so `..\..\`, `%2e%2e%2f` and `../../` are all treated the same. Matching works on whole path segments, so a name like `v1..v2` isn't mistaken for traversal.
 
+## Requirements
+
+- Rust 2021 edition
+
 ## Usage
 
 ```bash
@@ -38,7 +42,7 @@ FLAGGED  avatar.php%00.png  [null-byte, encoded]
 7 of 8 paths flagged
 ```
 
-The input file has one path per line; blank lines and lines starting with `#` are ignored. If `--input` is omitted, `paths.txt` is used.
+The input file has one path per line; blank lines and lines starting with `#` are ignored. If `--input` is omitted, `paths.txt` is used. Run `path-sentinel --help` for the available options.
 
 Exit codes: `0` when nothing is flagged, `1` when at least one path is flagged, `2` for bad arguments or an unreadable file — so it can be used as a check in scripts.
 
